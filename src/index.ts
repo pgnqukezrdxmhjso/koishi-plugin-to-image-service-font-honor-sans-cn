@@ -3,15 +3,15 @@ import type { Font, FontWeight, FontStyle } from "satori";
 import fs from "node:fs/promises";
 import path from "node:path";
 // noinspection ES6UnusedImports
-import {} from "koishi-plugin-vercel-satori-png-service";
+import {} from "koishi-plugin-to-image-service";
 
-const serviceName = "vercelSatoriPngServiceFontHonorSansCn";
+const serviceName = "toImageServiceFontHonorSansCn";
 
-class VercelSatoriPngServiceFontHonorSansCn extends Service {
+class ToImageServiceFontHonorSansCn extends Service {
   private _ctx: Context;
   constructor(
     ctx: Context,
-    config: VercelSatoriPngServiceFontHonorSansCn.Config,
+    config: ToImageServiceFontHonorSansCn.Config,
   ) {
     super(ctx, serviceName);
     this._ctx = ctx;
@@ -33,7 +33,7 @@ class VercelSatoriPngServiceFontHonorSansCn extends Service {
         ),
       });
     }
-    this._ctx.vercelSatoriPngService.addFont(fonts);
+    this._ctx.toImageService.addFont(fonts);
   }
 
   private fontNames: string[] = [
@@ -49,12 +49,12 @@ class VercelSatoriPngServiceFontHonorSansCn extends Service {
   ];
 }
 
-namespace VercelSatoriPngServiceFontHonorSansCn {
-  export const inject = ["vercelSatoriPngService"];
+namespace ToImageServiceFontHonorSansCn {
+  export const inject = ["toImageService"];
 
   export const usage =
     '<a target="_blank" href="https://developer.honor.com/cn/doc/guides/100681">HONOR Sans CN</a>';
   export interface Config {}
   export const Config: Schema<Config> = Schema.object({});
 }
-export default VercelSatoriPngServiceFontHonorSansCn;
+export default ToImageServiceFontHonorSansCn;
