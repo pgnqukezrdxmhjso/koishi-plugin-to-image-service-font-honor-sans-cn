@@ -1,18 +1,13 @@
 import { Context, Schema, Service } from "koishi";
-import type { Font, FontWeight, FontStyle } from "satori";
 import fs from "node:fs/promises";
 import path from "node:path";
-// noinspection ES6UnusedImports
-import {} from "koishi-plugin-to-image-service";
+import { Font, FontWeight, FontStyle } from "koishi-plugin-to-image-service";
 
 const serviceName = "toImageServiceFontHonorSansCn";
 
 class ToImageServiceFontHonorSansCn extends Service {
   private _ctx: Context;
-  constructor(
-    ctx: Context,
-    config: ToImageServiceFontHonorSansCn.Config,
-  ) {
+  constructor(ctx: Context, config: ToImageServiceFontHonorSansCn.Config) {
     super(ctx, serviceName);
     this._ctx = ctx;
   }
@@ -31,6 +26,7 @@ class ToImageServiceFontHonorSansCn extends Service {
         data: await fs.readFile(
           path.join(__dirname, `../fonts/HONORSansCN-${fontName}.ttf`),
         ),
+        supports: ["satori"],
       });
     }
     this._ctx.toImageService.addFont(fonts);
