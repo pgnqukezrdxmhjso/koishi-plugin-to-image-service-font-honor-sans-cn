@@ -19,14 +19,14 @@ class ToImageServiceFontHonorSansCn extends Service {
     const fonts: Font[] = [];
     for (let i = 0; i < this.fontNames.length; i++) {
       const fontName = this.fontNames[i];
+      const filePath = `fonts/HONORSansCN-${fontName}.ttf`;
       fonts.push({
         name: "HONOR Sans CN",
         weight: ((i + 1) * 100) as FontWeight,
         style: "normal" as FontStyle,
-        data: await fs.readFile(
-          path.join(__dirname, `../fonts/HONORSansCN-${fontName}.ttf`),
-        ),
-        supports: ["satori"],
+        data: await fs.readFile(path.join(__dirname, "../", filePath)),
+        format: "ttf",
+        filePath,
       });
     }
     this._ctx.toImageService.addFont(fonts);
