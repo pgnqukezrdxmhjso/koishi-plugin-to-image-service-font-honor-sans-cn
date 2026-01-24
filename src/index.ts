@@ -1,7 +1,7 @@
-import { Context, Schema, Service } from "koishi";
-import fs from "node:fs/promises";
 import path from "node:path";
-import { Font, FontWeight, FontStyle } from "koishi-plugin-to-image-service";
+import { Context, Schema, Service } from "koishi";
+// noinspection ES6UnusedImports
+import {} from "koishi-plugin-to-image-service";
 
 const serviceName = "toImageServiceFontHonorSansCn";
 
@@ -12,37 +12,14 @@ class ToImageServiceFontHonorSansCn extends Service {
     this._ctx = ctx;
   }
 
-  protected async start(): Promise<void> {
-    await this.initFonts();
+  async start(): Promise<void> {
+    const fonts = await this._ctx.toImageService.fontManagement.loadFontDir([
+      path.resolve(__dirname, "../fonts"),
+    ]);
+    this._ctx.on("dispose", () => {
+      this._ctx.toImageService.fontManagement.removeFont(fonts);
+    });
   }
-  private async initFonts() {
-    const fonts: Font[] = [];
-    for (let i = 0; i < this.fontNames.length; i++) {
-      const fontName = this.fontNames[i];
-      const filePath = `fonts/HONORSansCN-${fontName}.ttf`;
-      fonts.push({
-        name: "HONOR Sans CN",
-        weight: ((i + 1) * 100) as FontWeight,
-        style: "normal" as FontStyle,
-        data: await fs.readFile(path.join(__dirname, "../", filePath)),
-        format: "ttf",
-        filePath,
-      });
-    }
-    this._ctx.toImageService.addFont(fonts);
-  }
-
-  private fontNames: string[] = [
-    "Thin",
-    "ExtraLight",
-    "Light",
-    "Regular",
-    "Medium",
-    "DemiBold",
-    "Bold",
-    "ExtraBold",
-    "Heavy",
-  ];
 }
 
 namespace ToImageServiceFontHonorSansCn {
